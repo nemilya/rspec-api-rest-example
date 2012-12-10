@@ -204,3 +204,10 @@ post '/api/user_add.json' do
   user.save
 end
 ```
+
+
+Documentation
+=============
+
+Great documentation about RSpec can be found here:
+https://www.relishapp.com/rspec/
