@@ -10,6 +10,10 @@ require 'rack/test'
 require 'sinatra'
 require 'api.rb'
 
+require 'dm-core'
+require 'dm-migrations'
+require 'user'
+
 def app
   Sinatra::Application
 end
@@ -17,7 +21,10 @@ end
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-  config.run_all_when_everything_filtered = true
-  config.filter_run :focus
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/api-test.db")
+  DataMapper.finalize
+  User.auto_migrate!
+#  config.treat_symbols_as_metadata_keys_with_true_values = true
+#  config.run_all_when_everything_filtered = true
+#  config.filter_run :focus
 end

@@ -98,3 +98,63 @@ it "Start content" do
   last_response.body.should == 'rspec-api-rest-example'
 end
 ```
+
+
+Create User DataMapper model
+----------------------------
+
+Create `lib/user.rb` model:
+
+```ruby
+class User
+  include DataMapper::Resource
+
+  property :id,   Serial, :key => true
+  property :name, String
+end
+```
+
+Install DataMapper, sqlite3 datamapper-driver, 
+sqlite3 dll (for windows), configure RSpec helper, 
+sqlite3 database name, configure .autotest
+
+See details here https://github.com/nemilya/rspec-datamapper-example
+
+
+Specification to API /api/users.json
+------------------------------------
+
+```ruby
+it "/api/users.json" do
+  # create in data dase
+  User.create(:name=>'User 1')
+  User.create(:name=>'User 2')
+
+  # get REST GET request
+  get "/api/users.json"
+
+  # test 'ok' respone
+  last_response.should be_ok
+
+  # parse JSON
+  info = JSON::parse(last_response.body)
+  info.size.should == 2
+  info[0]['name'].should == 'User 1'
+  info[1]['name'].should == 'User 2'
+end        
+```
+
+Create API REST /api/users.json implementation
+----------------------------------------------
+
+In `api.rb` file:
+
+```ruby
+get '/api/users.json' do
+  ret = []
+  User.all.each do |u|
+    ret << { :name=> u.name }
+  end
+  ret.to_json
+end
+```
