@@ -29,5 +29,4 @@ describe 'API' do
     info[1]['name'].should == 'User 2'
   end        
 
-
 end
