@@ -128,7 +128,7 @@ Add new test to `api_spec.rb` file:
 
 ```ruby
 it "/api/users.json" do
-  # create in data dase
+  # create in data base
   User.create(:name=>'User 1')
   User.create(:name=>'User 2')
 
