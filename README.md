@@ -160,3 +160,47 @@ get '/api/users.json' do
   ret.to_json
 end
 ```
+
+
+Configure DataBase cleanup before each test
+-------------------------------------------
+
+Within `describe` module in `api_spec.rb` file add:
+
+```ruby
+before(:each) do
+  # cleanup database
+  User.all.destroy
+end
+```
+
+Specification API REST POST /api/user_add.json
+----------------------------------------------
+
+```ruby
+it "POST /api/user_add.json" do
+  User.count.should == 0
+
+  # POST request, for create User with 'name' parametr
+  post '/api/user_add.json', { :name=>"New User" }
+
+  # test in database
+  User.count.should == 1
+
+  # test in database
+  User.first.name.should == 'New User'
+end
+```
+
+Create implementation for API REST POST /api/user_add.json
+----------------------------------------------------------
+
+In `api.rb` file:
+
+```ruby
+post '/api/user_add.json' do
+  user = User.new
+  user.name = params[:name]
+  user.save
+end
+```

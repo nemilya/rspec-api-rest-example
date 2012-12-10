@@ -1,6 +1,12 @@
 require 'spec_helper.rb'
 
 describe 'API' do
+
+  before(:each) do
+    # cleanup database
+    User.all.destroy
+  end
+
   it "Start page ok" do
     get "/"
     last_response.should be_ok
@@ -27,6 +33,20 @@ describe 'API' do
     info.size.should == 2
     info[0]['name'].should == 'User 1'
     info[1]['name'].should == 'User 2'
-  end        
+  end
+
+  it "POST /api/user_add.json" do
+    User.count.should == 0
+
+    # POST request, for create User with 'name' parametr
+    post '/api/user_add.json', { :name=>"New User" }
+
+    # test in database
+    User.count.should == 1
+
+    # test in database
+    User.first.name.should == 'New User'
+  end
+
 
 end
