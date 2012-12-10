@@ -135,7 +135,7 @@ it "/api/users.json" do
   # get REST GET request
   get "/api/users.json"
 
-  # test 'ok' respone
+  # test 'ok' response
   last_response.should be_ok
 
   # parse JSON
