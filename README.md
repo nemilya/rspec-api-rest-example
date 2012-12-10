@@ -124,6 +124,8 @@ See details here https://github.com/nemilya/rspec-datamapper-example
 Specification to API /api/users.json
 ------------------------------------
 
+Add new test to `api_spec.rb` file:
+
 ```ruby
 it "/api/users.json" do
   # create in data dase
